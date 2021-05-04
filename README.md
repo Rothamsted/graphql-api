@@ -1,5 +1,4 @@
-# graphql-api
-KnetMiner Platform API BETA
+# KnetMiner Platform API BETA
 
 We are beginning to migrate the KnetMiner REST API and Java code to [Apollo-GraphQL](https://www.apollographql.com/).
 
