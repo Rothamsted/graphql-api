@@ -17,5 +17,6 @@ COVID-19 Neo4j:
  - bolt://knetminer-neo4j.cyverseuk.org:7689
 
 
+Stay connected!
+The KnetMiner Team - where knowledge grows.
 
-The KnetMiner team
