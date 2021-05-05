@@ -18,5 +18,5 @@ COVID-19 Neo4j:
 
 
 Stay connected!
-The KnetMiner Team - where knowledge grows.
+The KnetMiner Team - where knowledge grows. :)
 
