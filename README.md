@@ -1,4 +1,4 @@
-# KnetMiner Platform API BETA
+# KnetMiner GraphQL API BETA
 
 We are beginning to migrate the existing KnetMiner REST API built using the OndexGraph library and Java Spring to the [GRANDstack](https://grandstack.io/). As we transition to GRAND, our first goal is to rebuild 11+ API endpoints using [Apollo-GraphQL](https://www.apollographql.com/), the [Neo4j GraphQL Library](https://neo4j.com/product/graphql-library/) and our Neo4j DB which are modelled using [BioSchemas](https://bioschemas.org/) and serveral ontologies. 
 
