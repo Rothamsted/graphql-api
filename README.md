@@ -1,8 +1,8 @@
-# KnetMiner Platform API BETA
+# KnetMiner GraphQL API BETA
 
-We are beginning to migrate the KnetMiner REST API and Java code to [Apollo-GraphQL](https://www.apollographql.com/) and Neo4j. Our goal is to remove the dependency to the legacy OndexGraph Java library which is highly rooted in KnetMiner but not supported any longer.
+We are beginning to migrate the existing KnetMiner REST API built using the OndexGraph library and Java Spring to the [GRANDstack](https://grandstack.io/). As we transition to GRAND, our first goal is to rebuild 11+ API endpoints using [Apollo-GraphQL](https://www.apollographql.com/), the [Neo4j GraphQL Library](https://neo4j.com/product/graphql-library/) and our Neo4j DB which are modelled using [BioSchemas](https://bioschemas.org/) and serveral ontologies. 
 
-Description of existing APIs and wishlist of new APIs will be gathered in this [Google Doc](https://docs.google.com/document/d/1KyZaBwq0uLnK9NIArIytRrI1CN6xZ5hkG21Nro1KyCo/edit?usp=sharing). Contributions are welcome!
+Description of existing REST APIs and wishlist of new APIs will be gathered in this [Google Doc](https://docs.google.com/document/d/1KyZaBwq0uLnK9NIArIytRrI1CN6xZ5hkG21Nro1KyCo/edit?usp=sharing). Contributions are welcome!
 
 Other related repositories to check out are the [knetminer-backend](https://github.com/Rothamsted/knetminer-backend) based on Neo4j (and legacy Ondex) and [knetminer](https://github.com/Rothamsted/knetminer).
 
