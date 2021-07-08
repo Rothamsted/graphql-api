@@ -1,31 +1,35 @@
 {
-  "name": "graphql-api",
-  "version": "1.0.0",
-  "description": "We are beginning to migrate the KnetMiner REST API and Java code to [Apollo-GraphQL](https://www.apollographql.com/) and Neo4j. Our goal is to remove the dependency to the legacy OndexGraph Java library which is highly rooted in KnetMiner but not supoorted any longer.",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon index.js --watch .env --watch schema.graphql --watch index.js",
-    "start": "node index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Rothamsted/graphql-api.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Rothamsted/graphql-api/issues"
-  },
-  "homepage": "https://github.com/Rothamsted/graphql-api#readme",
-  "dependencies": {
-    "@neo4j/graphql": "^1.0.2",
-    "apollo-server": "^2.25.1",
-    "dotenv": "^10.0.0",
-    "graphql": "^15.5.0",
-    "neo4j-driver": "^4.3.1"
-  },
   "devDependencies": {
-    "nodemon": "^2.0.9"
+    "concurrently": "^5.2.0",
+    "eslint": "^7.19.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "eslint-plugin-react": "^7.20.0",
+    "execa": "^4.0.2",
+    "grandstack": "^0.1.7",
+    "dotenv": "^8.2.0",
+    "husky": ">=4",
+    "lint-staged": ">=10",
+    "prettier": "^2.0.5",
+    "prettier-eslint-cli": "^5.0.0"
+  },
+  "scripts": {
+    "seedDb": "node scripts/seed.js",
+    "start": "node scripts/start-dev.js",
+    "build": "node scripts/build.js",
+    "format": "find . -name \"*.js\" | grep -v node_modules | grep -v build | xargs prettier --write",
+    "format:log": "find . -name \"*.js\" | grep -v node_modules | grep -v build | xargs prettier",
+    "inferschema:write": "node scripts/inferSchema.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }
