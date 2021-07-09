@@ -41,7 +41,7 @@ const neoSchema = new Neo4jGraphQL({ typeDefs, driver })
 const server = new ApolloServer({
   context: {
     driver,
-    driverConfig: { database: process.env.NEO4J_DATABASE || 'neo4j' },
+    // driverConfig: { database: process.env.NEO4J_DATABASE || 'neo4j' },
   },
   schema: neoSchema.schema,
   introspection: true,

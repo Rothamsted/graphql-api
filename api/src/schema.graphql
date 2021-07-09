@@ -2,6 +2,19 @@ scalar Point
 scalar DateTime
 scalar PointInput
 
+type Gene {
+  iri: String
+  identifier: String
+  TAXID: Int
+  Chromosome: Int
+  END: Int
+  comment: String
+  ondexId: Int
+  BEGIN: Int
+  altName: String
+  prefName: String
+}
+
 type User {
   userId: ID!
   name: String
