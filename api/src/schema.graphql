@@ -15,6 +15,31 @@ type Gene {
   prefName: String
 }
 
+type Path {
+  id: ID @id
+  iri: String
+  ondexId: Int
+  altName: String
+  prefName: String
+  description: String
+}
+
+type RankedGene {
+  ondexId: Int!
+  accession: String!
+  geneName: String!
+  chro: Int!
+  start: Int
+  taxId: Int!
+  score: Float!
+  user: String!
+  qtlEvidence: String!
+}
+
+type Query {
+  GetRankedGenes(keyword: String, list: String): [RankedGene]!
+}
+
 type User {
   userId: ID!
   name: String
@@ -100,10 +125,10 @@ type Mutation {
     )
 }
 
-type Query {
-  userCount: Int! @cypher(statement: "MATCH (u:User) RETURN COUNT(u)")
-  ratingsCount: [RatingCount]
-    @cypher(
-      statement: "MATCH (r:Review) WITH r.stars AS stars, COUNT(*) AS count ORDER BY stars RETURN {stars: stars, count: count}"
-    )
-}
+# type Query {
+#   userCount: Int! @cypher(statement: "MATCH (u:User) RETURN COUNT(u)")
+#   ratingsCount: [RatingCount]
+#     @cypher(
+#       statement: "MATCH (r:Review) WITH r.stars AS stars, COUNT(*) AS count ORDER BY stars RETURN {stars: stars, count: count}"
+#     )
+# }

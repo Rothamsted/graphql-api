@@ -1,4 +1,5 @@
 import { typeDefs } from './graphql-schema'
+import { resolvers } from './schemas/Genes/resolvers/resolvers'
 import { ApolloServer } from 'apollo-server-express'
 import express from 'express'
 import neo4j from 'neo4j-driver'
@@ -30,7 +31,7 @@ const driver = neo4j.driver(
  * https://neo4j.com/docs/graphql-manual/current/
  */
 
-const neoSchema = new Neo4jGraphQL({ typeDefs, driver })
+const neoSchema = new Neo4jGraphQL({ typeDefs, resolvers })
 
 /*
  * Create a new ApolloServer instance, serving the GraphQL schema
