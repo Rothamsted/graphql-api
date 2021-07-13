@@ -19,6 +19,10 @@ Arabidopsis Neo4j:
 COVID-19 Neo4j:
  - bolt://knetminer-neo4j.cyverseuk.org:7689
 
+Neo4j Cypher traverser/queries used in KnetMiner
+ - https://github.com/Rothamsted/knetminer/wiki/Semantic-Motif-Searching-in-Knetminer#the-cypherneo4j-traverser
+
+
 ## Getting started
 
 The process of testing GraphQL and developing a schema for our current data models could be started by wrapping the existing KnetMiner REST API using these resources:
