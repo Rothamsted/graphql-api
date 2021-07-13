@@ -7,7 +7,7 @@ Description of existing REST APIs and wishlist of new APIs will be gathered in t
 Other related repositories to check out are the [knetminer-backend](https://github.com/Rothamsted/knetminer-backend) based on Neo4j (and legacy Ondex) and [knetminer](https://github.com/Rothamsted/knetminer).
 
 
-## KnetMiner Neo4j DBs for testing
+## KnetMiner Neo4j and Cypher queries for testing
 
 Wheat Neo4j:
  - bolt://knetminer-neo4j.cyverseuk.org:7687
