@@ -2,28 +2,314 @@ scalar Point
 scalar DateTime
 scalar PointInput
 
-type Gene {
-  iri: String
+"""
+Start Base Type
+"""
+interface baseType {
+  iri: String!
+  ondexId: ID!
+}
+
+# Base Types
+type Accession {
+  identifier: String!
+  iri: String!
+  isAmbiguousAccession: String
+}
+
+type BioProc implements baseType {
+  prefName: String
+  description: String
+  identifier: String
+  iri: String!
+  ondexId: ID!
+  altName: String
+}
+
+type CelComp implements baseType {
+  description: String!
+  prefName: String!
+  identifier: String!
+  iri: String!
+  ondexId: ID!
+  altName: String
+}
+
+type CoExpCluster implements baseType {
+  prefName: String!
+  iri: String!
+  ondexId: ID!
+}
+
+# Little Records
+type CoExpStudy {
+  prefName: String!
+  iri: String!
+  Method: String!
+  Authors: String!
+  ondexId: ID!
+  Title: String
+}
+
+type Comp implements baseType {
+  prefName: String!
+  Mr: Float
+  description: String
+  identifier: String!
+  iri: String!
+  ondexId: ID!
+  CML: String
+  altName: String
+}
+
+type Concept {
+  prefName: String
+  Chemical: String
+  Abstract: String
+  ondexId: ID!
+  AUTHORS: String
+  MeSH: String
+  identifier: String
+  YEAR: Int
+  AbstractHeader: String
+  JOURNAL_REF: String
+  iri: String!
+  PUB_TYPE: String
+  comment: String
+  testAttribute: String
+  BEGIN: Int
+  TAXID: Int
+  Chromosome: Int
+  END: Int
+  altName: String
+  description: String
+  AA: String
+  Description: String
+  Method: String
+  Authors: String
+  Title: String
+  T3_Description: String
+  Study: String
+  Phenotype: String
+  Pheno: String
+  Position: String
+  Mr: String
+  CML: String
+  resources: [Resource] @relationship(type: "regulates", direction: OUT)
+  genes: [Gene] @relationship(type: "regulates", direction: OUT)
+}
+
+type DataSource {
+  label: String
+  identifier: String!
+  iri: String!
+  description: String
+}
+
+type EC implements baseType {
+  prefName: String
+  identifier: String!
+  iri: String!
+  ondexId: ID!
+}
+
+type Enzyme implements baseType {
+  prefName: String!
+  identifier: String!
+  iri: String!
+  ondexId: ID!
+  description: String
+  altName: String
+}
+
+type EvidenceType {
+  label: String
+  identifier: String!
+  iri: String!
+  description: String
+}
+
+type Gene implements baseType {
+  iri: String!
   identifier: String
   TAXID: Int
   Chromosome: Int
   END: Int
   comment: String
-  ondexId: Int
+  ondexId: ID!
   BEGIN: Int
   altName: String
   prefName: String
 }
 
-type Path {
-  id: ID @id
-  iri: String
-  ondexId: Int
-  altName: String
+type MolFunc implements baseType {
   prefName: String
+  altName: String
+  description: String
+  identifier: String!
+  iri: String!
+  ondexId: ID!
+}
+
+type Path implements baseType {
+  description: String
+  identifier: String
+  iri: String!
+  ondexId: ID!
+  prefName: String
+  altName: String
+}
+
+type Phenotype implements baseType {
+  iri: String!
+  ondexId: ID!
+  Phenotype: String
+}
+
+type PlantOntologyTerm implements baseType {
+  ondexId: ID!
+  prefName: String
+  description: String
+  identifier: String!
+  altName: String
+  iri: String!
+}
+
+type ProtDomain implements baseType {
+  prefName: String
+  Description: String
+  iri: String!
+  ondexId: ID!
+}
+
+type Protcmplx implements baseType {
+  TAXID: Int
+  prefName: String
+  description: String
+  identifier: String!
+  altName: String
+  iri: String!
+  ondexId: ID!
+}
+
+type Protein implements baseType {
+  prefName: String
+  AA: String
+  ondexId: ID!
+  TAXID: Int
+  identifier: String
+  iri: String!
+  comment: String
+  altName: String
+  description: String
+  Pheno: String
+}
+
+type Publication implements baseType {
+  prefName: String
+  Chemical: String
+  Abstract: String
+  ondexId: ID!
+  AUTHORS: String
+  MeSH: String
+  identifier: String
+  YEAR: Int
+  AbstractHeader: String
+  JOURNAL_REF: String
+  iri: String!
+  PUB_TYPE: String
+  comment: String
+}
+
+type Reaction {
+  prefName: String
+  identifier: String
+  iri: String!
+  ondexId: ID!
+  altName: String
   description: String
 }
 
+type Resource {
+  prefName: String
+  Chemical: String
+  Abstract: String
+  ondexId: ID
+  AUTHORS: String
+  MeSH: String
+  identifier: String
+  YEAR: Int
+  AbstractHeader: String
+  JOURNAL_REF: String
+  iri: String!
+  PUB_TYPE: String
+  comment: String
+  testAttribute: String
+  BEGIN: Int
+  TAXID: Int
+  Chromosome: String
+  END: Int
+  altName: String
+  description: String
+  AA: String
+  Description: String
+  Method: String
+  Authors: String
+  Title: String
+  T3_Description: String
+  Study: String
+  Phenotype: String
+  Pheno: String
+  Position: String
+  Mr: String
+  CML: String
+  label: String
+  isAmbiguousAccession: String
+  concepts(limit: Int = 2): [Concept]
+    @relationship(type: "regulates", direction: IN)
+  genes: [Gene] @relationship(type: "regulates", direction: IN)
+}
+
+type SNP implements baseType {
+  iri: String!
+  ondexId: ID!
+  Position: String
+  prefName: String
+  END: Int
+  BEGIN: Int
+  TAXID: Int
+  Chromosome: String
+}
+
+type SNPEffect implements baseType {
+  iri: String!
+  ondexId: ID!
+}
+
+type Trait implements baseType {
+  prefName: String
+  description: String
+  identifier: String
+  iri: String!
+  ondexId: ID!
+  altName: String
+  T3_Description: String
+  Study: String
+}
+
+type Transport implements baseType {
+  prefName: String
+  identifier: String!
+  iri: String!
+  ondexId: ID!
+  altName: String
+  description: String
+}
+
+"""
+The Definition of Base Types End
+Start Custom Query
+"""
 type RankedGene {
   ondexId: Int!
   accession: String!
