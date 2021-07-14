@@ -15,6 +15,13 @@ type Accession {
   identifier: String!
   iri: String!
   isAmbiguousAccession: String
+  publications: [Publication] @relationship(type: "identifier", direction: IN)
+  dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
+  # Consider this relationship
+  evidenceTypes: [EvidenceType]
+    @relationship(type: "dataSource", direction: OUT)
+  proteins: [Protein] @relationship(type: "identifier", direction: IN)
+  snps: [SNP] @relationship(type: "identifier", direction: IN)
 }
 
 type BioProc implements baseType {
@@ -95,8 +102,6 @@ type Concept {
   Position: String
   Mr: String
   CML: String
-  resources: [Resource] @relationship(type: "regulates", direction: OUT)
-  genes: [Gene] @relationship(type: "regulates", direction: OUT)
 }
 
 type DataSource {
@@ -104,6 +109,7 @@ type DataSource {
   identifier: String!
   iri: String!
   description: String
+  accessions: [Accession] @relationship(type: "dataSource", direction: IN)
 }
 
 type EC implements baseType {
@@ -127,6 +133,10 @@ type EvidenceType {
   identifier: String!
   iri: String!
   description: String
+  proteins: [Protein] @relationship(type: "evidence", direction: IN)
+  # Consider this relationship
+  accessions: [Accession] @relationship(type: "dataSource", direction: IN)
+  snps: [SNP] @relationship(type: "evidence", direction: IN)
 }
 
 type Gene implements baseType {
@@ -140,6 +150,9 @@ type Gene implements baseType {
   BEGIN: Int
   altName: String
   prefName: String
+  publications: [Publication] @relationship(type: "pub_in", direction: OUT)
+  proteins: [Protein] @relationship(type: "enc", direction: OUT)
+  genes: [Gene] @relationship(type: "regulates", direction: OUT)
 }
 
 type MolFunc implements baseType {
@@ -180,6 +193,7 @@ type ProtDomain implements baseType {
   Description: String
   iri: String!
   ondexId: ID!
+  proteins: [Protein] @relationship(type: "has_domain", direction: IN)
 }
 
 type Protcmplx implements baseType {
@@ -203,6 +217,12 @@ type Protein implements baseType {
   altName: String
   description: String
   Pheno: String
+  protDomains: [ProtDomain] @relationship(type: "has_domain", direction: OUT)
+  evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
+  accessions: [Accession] @relationship(type: "identifier", direction: OUT)
+  publications: [Publication] @relationship(type: "pub_in", direction: OUT)
+  genes: [Gene] @relationship(type: "enc", direction: IN)
+  proteins: [Protein] @relationship(type: "h_s_s", direction: OUT)
 }
 
 type Publication implements baseType {
@@ -219,6 +239,10 @@ type Publication implements baseType {
   iri: String!
   PUB_TYPE: String
   comment: String
+  accessions: [Accession] @relationship(type: "identifier", direction: OUT)
+  dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
+  genes: [Gene] @relationship(type: "pub_in", direction: IN)
+  proteins: [Protein] @relationship(type: "pub_in", direction: IN)
 }
 
 type Reaction {
@@ -265,9 +289,6 @@ type Resource {
   CML: String
   label: String
   isAmbiguousAccession: String
-  concepts(limit: Int = 2): [Concept]
-    @relationship(type: "regulates", direction: IN)
-  genes: [Gene] @relationship(type: "regulates", direction: IN)
 }
 
 type SNP implements baseType {
@@ -279,6 +300,8 @@ type SNP implements baseType {
   BEGIN: Int
   TAXID: Int
   Chromosome: String
+  evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
+  accessions: [Accession] @relationship(type: "identifier", direction: OUT)
 }
 
 type SNPEffect implements baseType {
