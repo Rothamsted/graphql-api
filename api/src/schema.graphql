@@ -22,6 +22,7 @@ type Accession {
     @relationship(type: "dataSource", direction: OUT)
   proteins: [Protein] @relationship(type: "identifier", direction: IN)
   snps: [SNP] @relationship(type: "identifier", direction: IN)
+  genes: [Gene] @relationship(type: "identifier", direction: IN)
 }
 
 type BioProc implements baseType {
@@ -31,6 +32,9 @@ type BioProc implements baseType {
   iri: String!
   ondexId: ID!
   altName: String
+  bioProcs: [BioProc] @relationship(type: "is_a", direction: OUT)
+  genes: [Gene] @relationship(type: "participates_in", direction: IN)
+  proteins: [Protein] @relationship(type: "participates_in", direction: IN)
 }
 
 type CelComp implements baseType {
@@ -40,12 +44,15 @@ type CelComp implements baseType {
   iri: String!
   ondexId: ID!
   altName: String
+  genes: [Gene] @relationship(type: "located_in", direction: IN)
+  proteins: [Protein] @relationship(type: "located_in", direction: IN)
 }
 
 type CoExpCluster implements baseType {
   prefName: String!
   iri: String!
   ondexId: ID!
+  genes: [Gene] @relationship(type: "part_of", direction: IN)
 }
 
 # Little Records
@@ -110,6 +117,10 @@ type DataSource {
   iri: String!
   description: String
   accessions: [Accession] @relationship(type: "dataSource", direction: IN)
+  proteins: [Protein] @relationship(type: "dataSource", direction: IN)
+  snps: [SNP] @relationship(type: "dataSource", direction: IN)
+  genes: [Gene] @relationship(type: "dataSource", direction: IN)
+  publications: [Publication] @relationship(type: "dataSource", direction: IN)
 }
 
 type EC implements baseType {
@@ -137,6 +148,10 @@ type EvidenceType {
   # Consider this relationship
   accessions: [Accession] @relationship(type: "dataSource", direction: IN)
   snps: [SNP] @relationship(type: "evidence", direction: IN)
+  genes: [Gene] @relationship(type: "evidence", direction: IN)
+  proteins: [Protein] @relationship(type: "dataSource", direction: IN)
+  publications: [Publication] @relationship(type: "evidence", direction: IN)
+  snps: [SNP] @relationship(type: "dataSource", direction: IN)
 }
 
 type Gene implements baseType {
@@ -153,6 +168,18 @@ type Gene implements baseType {
   publications: [Publication] @relationship(type: "pub_in", direction: OUT)
   proteins: [Protein] @relationship(type: "enc", direction: OUT)
   genes: [Gene] @relationship(type: "regulates", direction: OUT)
+  genes: [Gene] @relationship(type: "homoeolog", direction: OUT)
+  accessions: [Accession] @relationship(type: "identifier", direction: OUT)
+  evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
+  snps: [SNP] @relationship(type: "has_mutant", direction: OUT)
+  dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
+  coExpClusters: [CoExpCluster] @relationship(type: "part_of", direction: OUT)
+  publications: [Publication] @relationship(type: "occ_in", direction: OUT)
+  snps: [SNP] @relationship(type: "has_variation", direction: OUT)
+  celComps: [CelComp] @relationship(type: "located_in", direction: OUT)
+  bioProcs: [BioProc] @relationship(type: "participates_in", direction: OUT)
+  genes: [Gene] @relationship(type: "physical", direction: OUT)
+  molFuncs: [MolFunc] @relationship(type: "has_function", direction: OUT)
 }
 
 type MolFunc implements baseType {
@@ -162,6 +189,8 @@ type MolFunc implements baseType {
   identifier: String!
   iri: String!
   ondexId: ID!
+  proteins: [Protein] @relationship(type: "has_function", direction: IN)
+  genes: [Gene] @relationship(type: "has_function", direction: IN)
 }
 
 type Path implements baseType {
@@ -223,6 +252,15 @@ type Protein implements baseType {
   publications: [Publication] @relationship(type: "pub_in", direction: OUT)
   genes: [Gene] @relationship(type: "enc", direction: IN)
   proteins: [Protein] @relationship(type: "h_s_s", direction: OUT)
+  dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
+  evidenceTypes: [EvidenceType]
+    @relationship(type: "dataSource", direction: OUT)
+  proteins: [Protein] @relationship(type: "ortho", direction: OUT)
+  celComps: [CelComp] @relationship(type: "located_in", direction: OUT)
+  molFuncs: [MolFunc] @relationship(type: "has_function", direction: OUT)
+  bioProcs: [BioProc] @relationship(type: "participates_in", direction: OUT)
+  proteins: [Protein] @relationship(type: "genetic", direction: OUT)
+  proteins: [Protein] @relationship(type: "physical", direction: OUT)
 }
 
 type Publication implements baseType {
@@ -243,6 +281,9 @@ type Publication implements baseType {
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
   genes: [Gene] @relationship(type: "pub_in", direction: IN)
   proteins: [Protein] @relationship(type: "pub_in", direction: IN)
+  accessions: [Accession] @relationship(type: "identifier", direction: OUT)
+  genes: [Gene] @relationship(type: "occ_in", direction: IN)
+  evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
 }
 
 type Reaction {
@@ -302,11 +343,19 @@ type SNP implements baseType {
   Chromosome: String
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
+  dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
+  genes: [Gene] @relationship(type: "has_mutant", direction: IN)
+  SNPEffects: [SNPEffect] @relationship(type: "leads_to", direction: OUT)
+  traits: [Trait] @relationship(type: "associated_with", direction: OUT)
+  genes: [Gene] @relationship(type: "has_variation", direction: IN)
+  evidenceTypes: [EvidenceType]
+    @relationship(type: "dataSource", direction: OUT)
 }
 
 type SNPEffect implements baseType {
   iri: String!
   ondexId: ID!
+  snps: [SNP] @relationship(type: "leads_to", direction: IN)
 }
 
 type Trait implements baseType {
@@ -318,6 +367,7 @@ type Trait implements baseType {
   altName: String
   T3_Description: String
   Study: String
+  snps: [SNP] @relationship(type: "associated_with", direction: IN)
 }
 
 type Transport implements baseType {
