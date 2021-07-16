@@ -49,13 +49,13 @@ type BioProc implements baseType {
   iri: String!
   ondexId: ID!
   altName: String
-  bioProcs: [BioProc] @relationship(type: "is_a", direction: OUT)
+  # bioProcs: [BioProc] @relationship(type: "is_a", direction: OUT)
+  # bioProcs: [BioProc] @relationship(type: "part_of", direction: OUT)
+  # bioProcs: [BioProc] @relationship(type: "regulates", direction: OUT)
+  # bioProcs: [BioProc] @relationship(type: "pos_reg", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
-  bioProcs: [BioProc] @relationship(type: "part_of", direction: OUT)
-  bioProcs: [BioProc] @relationship(type: "regulates", direction: OUT)
-  bioProcs: [BioProc] @relationship(type: "pos_reg", direction: OUT)
   molFuncs: [MolFunc] @relationship(type: "regulates", direction: OUT)
   molFuncs: [MolFunc] @relationship(type: "neg_reg", direction: OUT)
   molFuncs: [MolFunc] @relationship(type: "pos_reg", direction: OUT)
@@ -77,11 +77,11 @@ type CelComp implements baseType {
   iri: String!
   ondexId: ID!
   altName: String
-  celComps: [CelComp] @relationship(type: "is_a", direction: OUT)
+  # celComps: [CelComp] @relationship(type: "is_a", direction: OUT)
+  # celComps: [CelComp] @relationship(type: "part_of", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
-  celComps: [CelComp] @relationship(type: "part_of", direction: OUT)
   genes: [Gene] @relationship(type: "located_in", direction: IN)
   proteins: [Protein] @relationship(type: "located_in", direction: IN)
   genes: [Gene] @relationship(type: "not_located_in", direction: IN)
@@ -91,13 +91,13 @@ type CoExpCluster implements baseType {
   prefName: String!
   iri: String!
   ondexId: ID!
+  # coExpClusters: [CoExpCluster] @relationship(type: "part_of", direction: OUT)
   bioProcs: [BioProc] @relationship(type: "enriched_for", direction: OUT)
   plantOntologyTerms: [PlantOntologyTerm]
     @relationship(type: "enriched_for", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
-  coExpClusters: [CoExpCluster] @relationship(type: "part_of", direction: OUT)
   genes: [Gene] @relationship(type: "part_of", direction: IN)
 }
 
@@ -281,10 +281,12 @@ type Gene implements baseType {
   BEGIN: Int
   altName: String
   prefName: String
+  # genes: [Gene] @relationship(type: "regulates", direction: OUT)
+  # genes: [Gene] @relationship(type: "homoeolog", direction: OUT)
+  # genes: [Gene] @relationship(type: "physical", direction: OUT)
+  # genes: [Gene] @relationship(type: "genetic", direction: OUT)
   publications: [Publication] @relationship(type: "pub_in", direction: OUT)
   proteins: [Protein] @relationship(type: "enc", direction: OUT)
-  genes: [Gene] @relationship(type: "regulates", direction: OUT)
-  genes: [Gene] @relationship(type: "homoeolog", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
   snps: [SNP] @relationship(type: "has_mutant", direction: OUT)
@@ -294,7 +296,6 @@ type Gene implements baseType {
   snps: [SNP] @relationship(type: "has_variation", direction: OUT)
   celComps: [CelComp] @relationship(type: "located_in", direction: OUT)
   bioProcs: [BioProc] @relationship(type: "participates_in", direction: OUT)
-  genes: [Gene] @relationship(type: "physical", direction: OUT)
   molFuncs: [MolFunc] @relationship(type: "has_function", direction: OUT)
   evidenceTypes: [EvidenceType]
     @relationship(type: "dataSource", direction: OUT)
@@ -304,7 +305,6 @@ type Gene implements baseType {
   reactions: [Reaction] @relationship(type: "inv_in", direction: OUT)
   traits: [Trait] @relationship(type: "cooc_wi", direction: OUT)
   celComps: [CelComp] @relationship(type: "not_located_in", direction: OUT)
-  genes: [Gene] @relationship(type: "genetic", direction: OUT)
   bioProcs: [BioProc] @relationship(type: "participates_not", direction: OUT)
   molFuncs: [MolFunc] @relationship(type: "not_function", direction: OUT)
   traits: [Trait] @relationship(type: "cooc_wi", direction: IN)
@@ -317,15 +317,15 @@ type MolFunc implements baseType {
   identifier: String!
   iri: String!
   ondexId: ID!
+  # molFuncs: [MolFunc] @relationship(type: "is_a", direction: OUT)
+  # molFuncs: [MolFunc] @relationship(type: "neg_reg", direction: OUT)
+  # molFuncs: [MolFunc] @relationship(type: "regulates", direction: OUT)
+  # molFuncs: [MolFunc] @relationship(type: "pos_reg", direction: OUT)
+  # molFuncs: [MolFunc] @relationship(type: "part_of", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
-  molFuncs: [MolFunc] @relationship(type: "is_a", direction: OUT)
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
   bioProcs: [BioProc] @relationship(type: "part_of", direction: OUT)
-  molFuncs: [MolFunc] @relationship(type: "neg_reg", direction: OUT)
-  molFuncs: [MolFunc] @relationship(type: "regulates", direction: OUT)
-  molFuncs: [MolFunc] @relationship(type: "pos_reg", direction: OUT)
-  molFuncs: [MolFunc] @relationship(type: "part_of", direction: OUT)
   bioProcs: [BioProc] @relationship(type: "regulates", direction: OUT)
   proteins: [Protein] @relationship(type: "has_function", direction: IN)
   genes: [Gene] @relationship(type: "has_function", direction: IN)
@@ -343,10 +343,10 @@ type Path implements baseType {
   ondexId: ID!
   prefName: String
   altName: String
+  # paths: [Path] @relationship(type: "relatedConcept", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
-  paths: [Path] @relationship(type: "relatedConcept", direction: OUT)
   genes: [Gene] @relationship(type: "part_of", direction: IN)
   enzymes: [Enzyme] @relationship(type: "relatedConcept", direction: IN)
   comps: [Comp] @relationship(type: "relatedConcept", direction: IN)
@@ -376,13 +376,13 @@ type PlantOntologyTerm implements baseType {
   identifier: String!
   altName: String
   iri: String!
+  # plantOntologyTerms: [PlantOntologyTerm]
+  #   @relationship(type: "is_a", direction: OUT)
+  # plantOntologyTerms: [PlantOntologyTerm]
+  #   @relationship(type: "part_of", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
-  plantOntologyTerms: [PlantOntologyTerm]
-    @relationship(type: "is_a", direction: OUT)
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
-  plantOntologyTerms: [PlantOntologyTerm]
-    @relationship(type: "part_of", direction: OUT)
   coExpClusters: [CoExpCluster]
     @relationship(type: "enriched_for", direction: IN)
 }
@@ -407,6 +407,7 @@ type Protcmplx implements baseType {
   altName: String
   iri: String!
   ondexId: ID!
+  # protcmplxs: [Protcmplx] @relationship(type: "is_part_of", direction: OUT)
   paths: [Path] @relationship(type: "relatedConcept", direction: OUT)
   enzymes: [Enzyme] @relationship(type: "is_a", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
@@ -414,7 +415,6 @@ type Protcmplx implements baseType {
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
   reactions: [Reaction] @relationship(type: "cs_by", direction: OUT)
   reactions: [Reaction] @relationship(type: "pd_by", direction: OUT)
-  protcmplxs: [Protcmplx] @relationship(type: "is_part_of", direction: OUT)
   proteins: [Protein] @relationship(type: "is_part_of", direction: IN)
 }
 
@@ -429,26 +429,26 @@ type Protein implements baseType {
   altName: String
   description: String
   Pheno: String
+  # proteins: [Protein] @relationship(type: "h_s_s", direction: OUT)
+  # proteins: [Protein] @relationship(type: "ortho", direction: OUT)
+  # proteins: [Protein] @relationship(type: "genetic", direction: OUT)
+  # proteins: [Protein] @relationship(type: "physical", direction: OUT)
+  # proteins: [Protein] @relationship(type: "para", direction: OUT)
+  # proteins: [Protein] @relationship(type: "xref", direction: OUT)
+  # proteins: [Protein] @relationship(type: "equivalent", direction: OUT)
   protDomains: [ProtDomain] @relationship(type: "has_domain", direction: OUT)
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
   publications: [Publication] @relationship(type: "pub_in", direction: OUT)
-  proteins: [Protein] @relationship(type: "h_s_s", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
   evidenceTypes: [EvidenceType]
     @relationship(type: "dataSource", direction: OUT)
-  proteins: [Protein] @relationship(type: "ortho", direction: OUT)
   celComps: [CelComp] @relationship(type: "located_in", direction: OUT)
   molFuncs: [MolFunc] @relationship(type: "has_function", direction: OUT)
   bioProcs: [BioProc] @relationship(type: "participates_in", direction: OUT)
-  proteins: [Protein] @relationship(type: "genetic", direction: OUT)
-  proteins: [Protein] @relationship(type: "physical", direction: OUT)
-  proteins: [Protein] @relationship(type: "para", direction: OUT)
   ecs: [EC] @relationship(type: "cat_c", direction: OUT)
-  proteins: [Protein] @relationship(type: "xref", direction: OUT)
   enzymes: [Enzyme] @relationship(type: "is_a", direction: OUT)
   paths: [Path] @relationship(type: "relatedConcept", direction: OUT)
-  proteins: [Protein] @relationship(type: "equivalent", direction: OUT)
   protcmplxs: [Protcmplx] @relationship(type: "is_part_of", direction: OUT)
   reactions: [Reaction] @relationship(type: "pd_by", direction: OUT)
   reactions: [Reaction] @relationship(type: "cs_by", direction: OUT)
@@ -578,14 +578,14 @@ type Trait implements baseType {
   altName: String
   T3_Description: String
   Study: String
+  # traits: [Trait] @relationship(type: "is_a", direction: OUT)
+  # traits: [Trait] @relationship(type: "is_part_of", direction: OUT)
+  # traits: [Trait] @relationship(type: "part_of", direction: OUT)
   genes: [Gene] @relationship(type: "cooc_wi", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
-  traits: [Trait] @relationship(type: "is_a", direction: OUT)
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
   publications: [Publication] @relationship(type: "pub_in", direction: OUT)
-  traits: [Trait] @relationship(type: "is_part_of", direction: OUT)
-  traits: [Trait] @relationship(type: "part_of", direction: OUT)
   evidenceTypes: [EvidenceType]
     @relationship(type: "dataSource", direction: OUT)
   snps: [SNP] @relationship(type: "associated_with", direction: IN)
