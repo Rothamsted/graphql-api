@@ -1,30 +1,34 @@
 {
-  "name": "grand-stack-starter-api",
+  "name": "gene-graph-graphql",
   "version": "0.0.1",
-  "description": "API app for GRANDstack",
+  "description": "API app for Gene Graph",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "./node_modules/.bin/nodemon --watch src --ext js,graphql --exec babel-node  src/index.js",
+    "start": "./node_modules/.bin/nodemon --watch src --ext js,graphql --exec babel-node  src/index.js",
     "build": "babel src --out-dir build && shx cp .env build 2>/dev/null || : && shx cp src/schema.graphql build",
     "now-build": "babel src --out-dir build && shx cp src/schema.graphql build",
-    "start": "npm run build && node build/index.js",
-    "seedDb": "./node_modules/.bin/babel-node src/seed/seed-db.js"
+    "start:prod": "npm run build && node build/index.js",
+    "seedDb": "./node_modules/.bin/babel-node src/seed/seed-db.js",
+    "start:voyager": "cross-env ./node_modules/.bin/nodemon --watch src --ext js,graphql --exec babel-node  src/voyager-index.js",
+    "integration": "nyc --reporter=lcov ava --timeout=45s ./src/schemas/**/tests/*.test.js --verbose",
+    "print": "babel-node ./print-merged.js"
   },
-  "author": "William Lyon",
+  "author": "Emzar Arkania",
   "license": "MIT",
   "dependencies": {
-    "@apollo/client": "^3.2.5",
     "@neo4j/graphql": "^1.0.0",
     "apollo-server": "^2.19.2",
     "apollo-server-lambda": "^2.19.0",
     "csv-parse": "^4.10.1",
     "dotenv": "^7.0.0",
+    "graphql-tools": "^7.0.5",
+    "graphql-voyager": "^1.0.0-rc.31",
     "neo4j-driver": "^4.2.2",
-    "node-fetch": "^2.6.0",
     "react": "^16.13.1"
   },
   "devDependencies": {
+    "@apollo/client": "^3.3.21",
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/node": "^7.8.7",
@@ -34,10 +38,19 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
     "@babel/runtime-corejs3": "^7.9.2",
+    "ava": "^3.15.0",
     "babel-plugin-auto-import": "^1.0.5",
     "babel-plugin-module-resolver": "^4.0.0",
     "cross-env": "^7.0.2",
+    "graphql-tag": "^2.12.5",
+    "node-fetch": "^2.6.1",
     "nodemon": "^1.19.1",
+    "nyc": "^15.1.0",
     "shx": "^0.3.2"
+  },
+  "ava": {
+    "require": [
+      "@babel/register"
+    ]
   }
 }

@@ -1,6 +1,7 @@
-import { typeDefs, resolvers } from './graphql-schema'
+import { typeDefs } from './typeDefs'
 import { ApolloServer } from 'apollo-server-express'
 import express from 'express'
+import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
 import neo4j from 'neo4j-driver'
 import { Neo4jGraphQL } from '@neo4j/graphql'
 import dotenv from 'dotenv'
@@ -30,7 +31,7 @@ const driver = neo4j.driver(
  * https://neo4j.com/docs/graphql-manual/current/
  */
 
-const neoSchema = new Neo4jGraphQL({ typeDefs, resolvers })
+const neoSchema = new Neo4jGraphQL({ typeDefs, driver })
 
 /*
  * Create a new ApolloServer instance, serving the GraphQL schema
@@ -40,7 +41,6 @@ const neoSchema = new Neo4jGraphQL({ typeDefs, resolvers })
  */
 const server = new ApolloServer({
   context: {
-    driver,
     // driverConfig: { database: process.env.NEO4J_DATABASE || 'neo4j' },
   },
   schema: neoSchema.schema,
@@ -50,8 +50,10 @@ const server = new ApolloServer({
 
 // Specify host, port and path for GraphQL endpoint
 const port = process.env.GRAPHQL_SERVER_PORT || 4001
-const path = process.env.GRAPHQL_SERVER_PATH || '/graphql'
+const path = process.env.GRAPHQL_SERVER_PATH || '/'
 const host = process.env.GRAPHQL_SERVER_HOST || 'localhost'
+
+app.use('/voyager', voyagerMiddleware({ endpointUrl: path }))
 
 /*
  * Optionally, apply Express middleware for authentication, etc
