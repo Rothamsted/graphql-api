@@ -1,0 +1,1 @@
+{"processes":{"61c30f97-2db6-499a-8cbf-2b705a19321f":{"parent":"ac343aee-190e-4a1b-bf39-6fba673e05ee","children":[]},"ac343aee-190e-4a1b-bf39-6fba673e05ee":{"parent":null,"children":["61c30f97-2db6-499a-8cbf-2b705a19321f"]}},"files":{"F:\\working\\javascript\\knetminer\\graphql-grand\\api\\src\\schemas\\client.js":["61c30f97-2db6-499a-8cbf-2b705a19321f"]},"externalIds":{}}

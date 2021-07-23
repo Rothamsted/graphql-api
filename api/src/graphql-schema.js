@@ -1,13 +1,12 @@
-import fs from 'fs'
 import path from 'path'
+import { mergeTypeDefs, mergeResolvers, loadFilesSync } from 'graphql-tools'
 
-/*
- * Check for GRAPHQL_SCHEMA environment variable to specify schema file
- * fallback to schema.graphql if GRAPHQL_SCHEMA environment variable is not set
- */
+const dataSourceTypes = loadFilesSync(
+  path.join(__dirname, './schemas/**/typeDefs/*.js')
+)
+export const typeDefs = mergeTypeDefs(dataSourceTypes)
 
-export const typeDefs = fs
-  .readFileSync(
-    process.env.GRAPHQL_SCHEMA || path.join(__dirname, 'schema.graphql')
-  )
-  .toString('utf-8')
+const dataSourceResolvers = loadFilesSync(
+  path.join(__dirname, './schemas/**/resolvers/*.js')
+)
+export const resolvers = mergeResolvers(dataSourceResolvers)
