@@ -1,10 +1,10 @@
 scalar Point
-
 scalar DateTime
-
 scalar PointInput
 
-"""Start Base Type"""
+"""
+Start Base Type
+"""
 interface baseType {
   iri: String!
   ondexId: ID!
@@ -15,7 +15,8 @@ type Accession {
   iri: String!
   isAmbiguousAccession: String
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
-  evidenceTypes: [EvidenceType] @relationship(type: "dataSource", direction: OUT)
+  evidenceTypes: [EvidenceType]
+    @relationship(type: "dataSource", direction: OUT)
   publications: [Publication] @relationship(type: "identifier", direction: IN)
   proteins: [Protein] @relationship(type: "identifier", direction: IN)
   snps: [SNP] @relationship(type: "identifier", direction: IN)
@@ -30,7 +31,8 @@ type Accession {
   traits: [Trait] @relationship(type: "identifier", direction: IN)
   ECs: [EC] @relationship(type: "identifier", direction: IN)
   paths: [Path] @relationship(type: "identifier", direction: IN)
-  plantOntologyTerms: [PlantOntologyTerm] @relationship(type: "identifier", direction: IN)
+  plantOntologyTerms: [PlantOntologyTerm]
+    @relationship(type: "identifier", direction: IN)
   protcmplxs: [Protcmplx] @relationship(type: "identifier", direction: IN)
   coExpClusters: [CoExpCluster] @relationship(type: "identifier", direction: IN)
   transports: [Transport] @relationship(type: "identifier", direction: IN)
@@ -53,7 +55,9 @@ type BioProc implements baseType {
   molFuncs: [MolFunc] @relationship(type: "pos_reg", direction: OUT)
   coExpClusters: [CoExpCluster]
   genes: [Gene] @relationship(type: "participates_in", direction: IN)
-  proteins: [Protein] @relationship(type: "participates_in", direction: IN) @relationship(type: "enriched_for", direction: IN)
+  proteins: [Protein]
+    @relationship(type: "participates_in", direction: IN)
+    @relationship(type: "enriched_for", direction: IN)
   molFuncs: [MolFunc] @relationship(type: "part_of", direction: IN)
   genes: [Gene] @relationship(type: "participates_not", direction: IN)
   molFuncs: [MolFunc] @relationship(type: "regulates", direction: IN)
@@ -80,7 +84,8 @@ type CoExpCluster implements baseType {
   iri: String!
   ondexId: ID!
   bioProcs: [BioProc] @relationship(type: "enriched_for", direction: OUT)
-  plantOntologyTerms: [PlantOntologyTerm] @relationship(type: "enriched_for", direction: OUT)
+  plantOntologyTerms: [PlantOntologyTerm]
+    @relationship(type: "enriched_for", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
@@ -175,7 +180,8 @@ type DataSource {
   comps: [Comp] @relationship(type: "dataSource", direction: IN)
   ECs: [EC] @relationship(type: "dataSource", direction: IN)
   traits: [Trait] @relationship(type: "dataSource", direction: IN)
-  plantOntologyTerms: [PlantOntologyTerm] @relationship(type: "dataSource", direction: IN)
+  plantOntologyTerms: [PlantOntologyTerm]
+    @relationship(type: "dataSource", direction: IN)
   paths: [Path] @relationship(type: "dataSource", direction: IN)
   protcmplxs: [Protcmplx] @relationship(type: "dataSource", direction: IN)
   coExpClusters: [CoExpCluster] @relationship(type: "dataSource", direction: IN)
@@ -243,7 +249,8 @@ type EvidenceType {
   comps: [Comp] @relationship(type: "evidence", direction: IN)
   ECs: [EC] @relationship(type: "evidence", direction: IN)
   traits: [Trait] @relationship(type: "evidence", direction: IN)
-  plantOntologyTerms: [PlantOntologyTerm] @relationship(type: "evidence", direction: IN)
+  plantOntologyTerms: [PlantOntologyTerm]
+    @relationship(type: "evidence", direction: IN)
   paths: [Path] @relationship(type: "evidence", direction: IN)
   protcmplxs: [Protcmplx] @relationship(type: "evidence", direction: IN)
   coExpClusters: [CoExpCluster] @relationship(type: "evidence", direction: IN)
@@ -275,9 +282,11 @@ type Gene implements baseType {
   celComps: [CelComp] @relationship(type: "located_in", direction: OUT)
   bioProcs: [BioProc] @relationship(type: "participates_in", direction: OUT)
   molFuncs: [MolFunc] @relationship(type: "has_function", direction: OUT)
-  evidenceTypes: [EvidenceType] @relationship(type: "dataSource", direction: OUT)
+  evidenceTypes: [EvidenceType]
+    @relationship(type: "dataSource", direction: OUT)
   paths: [Path] @relationship(type: "part_of", direction: OUT)
-  phenotypes: [Phenotype] @relationship(type: "has_observ_pheno", direction: OUT)
+  phenotypes: [Phenotype]
+    @relationship(type: "has_observ_pheno", direction: OUT)
   reactions: [Reaction] @relationship(type: "inv_in", direction: OUT)
   traits: [Trait] @relationship(type: "cooc_wi", direction: OUT)
   celComps: [CelComp] @relationship(type: "not_located_in", direction: OUT)
@@ -349,7 +358,8 @@ type PlantOntologyTerm implements baseType {
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
-  coExpClusters: [CoExpCluster] @relationship(type: "enriched_for", direction: IN)
+  coExpClusters: [CoExpCluster]
+    @relationship(type: "enriched_for", direction: IN)
 }
 
 type ProtDomain implements baseType {
@@ -358,7 +368,8 @@ type ProtDomain implements baseType {
   iri: String!
   ondexId: ID!
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
-  evidenceTypes: [EvidenceType] @relationship(type: "dataSource", direction: OUT)
+  evidenceTypes: [EvidenceType]
+    @relationship(type: "dataSource", direction: OUT)
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
   proteins: [Protein] @relationship(type: "has_domain", direction: IN)
 }
@@ -397,7 +408,8 @@ type Protein implements baseType {
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
   publications: [Publication] @relationship(type: "pub_in", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
-  evidenceTypes: [EvidenceType] @relationship(type: "dataSource", direction: OUT)
+  evidenceTypes: [EvidenceType]
+    @relationship(type: "dataSource", direction: OUT)
   celComps: [CelComp] @relationship(type: "located_in", direction: OUT)
   molFuncs: [MolFunc] @relationship(type: "has_function", direction: OUT)
   bioProcs: [BioProc] @relationship(type: "participates_in", direction: OUT)
@@ -507,7 +519,9 @@ type SNP implements baseType {
   accessions: [Accession] @relationship(type: "identifier", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
   SNPEffects: [SNPEffect] @relationship(type: "leads_to", direction: OUT)
-  traits: [Trait] @relationship(type: "associated_with", direction: OUT) @relationship(type: "dataSource", direction: OUT)
+  traits: [Trait]
+    @relationship(type: "associated_with", direction: OUT)
+    @relationship(type: "dataSource", direction: OUT)
   genes: [Gene] @relationship(type: "has_mutant", direction: IN)
   genes: [Gene] @relationship(type: "has_variation", direction: IN)
   evidenceTypes: [EvidenceType]
@@ -536,7 +550,8 @@ type Trait implements baseType {
   evidenceTypes: [EvidenceType] @relationship(type: "evidence", direction: OUT)
   dataSources: [DataSource] @relationship(type: "dataSource", direction: OUT)
   publications: [Publication] @relationship(type: "pub_in", direction: OUT)
-  evidenceTypes: [EvidenceType] @relationship(type: "dataSource", direction: OUT)
+  evidenceTypes: [EvidenceType]
+    @relationship(type: "dataSource", direction: OUT)
   snps: [SNP] @relationship(type: "associated_with", direction: IN)
   genes: [Gene] @relationship(type: "cooc_wi", direction: IN)
 }

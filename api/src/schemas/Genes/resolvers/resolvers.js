@@ -1,7 +1,7 @@
 export const resolvers = {
   Gene: {
     prefName(obj) {
-      return `${obj.prefName}`
+      return `Customed prefName ${obj.prefName}`
     },
   },
   Query: {
