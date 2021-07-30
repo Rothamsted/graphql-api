@@ -593,6 +593,11 @@ type Query {
   GetRankedGenes(keyword: String, list: String): [RankedGene]!
 }
 
+type Mutation {
+
+}
+
 schema {
-  query: Query
+  query: Query,
+  mutation: Mutation
 }
