@@ -652,6 +652,7 @@ export const typeDefs = gql`
   }
 
   type Query {
+    SearchKeyword(keyword: String, list: [String]): [Gene]
     GetRankedGenes(keyword: String, list: String): [RankedGene]!
   }
 `
