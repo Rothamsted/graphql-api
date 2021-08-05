@@ -7,7 +7,6 @@ export const queryService = async (query, params, ctx) => {
       result = res.records.map((rec) => {
         const path = rec.get('n').properties
 
-        console.log(path.ondexId)
         return { ondexId: path.ondexId }
       })
     })

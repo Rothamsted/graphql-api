@@ -1,4 +1,4 @@
-const { queryService } = require('../../../dataService/query')
+const { queryService } = require('./../../../dataService/query')
 
 export const resolvers = {
   Gene: {
@@ -7,10 +7,10 @@ export const resolvers = {
     },
   },
   Query: {
-    SearchKeyword: async (object, params, ctx, resolveInfo) => {
+    SearchKeyword: async (_, params, ctx, __) => {
       const query =
         'MATCH (n:Gene) - [:part_of] -> (:Path {description: $keyword}) WHERE n.iri in $list RETURN n LIMIT 3'
-
+      console.log(query)
       return queryService(query, params, ctx)
         .then((res) => {
           console.log(res)
@@ -19,6 +19,29 @@ export const resolvers = {
         .catch((error) => {
           console.log(error)
           return []
+        })
+    },
+    SearchRelation: async (_, params, ctx, __) => {
+      let result = []
+      const descriptionQuery =
+        'MATCH (n:Gene) - [:part_of] -> (:Path) WHERE n.iri in $list RETURN n LIMIT 3'
+
+      return queryService(descriptionQuery, params, ctx)
+        .then(async (res) => {
+          let ondexIDs = []
+          result = [...result, ...res]
+
+          res.forEach((el) => {
+            if (ondexIDs.indexOf(el.ondexId) === -1) ondexIDs.push(el.ondexId)
+          })
+
+          const ondexQuery =
+            'MATCH (n:Gene) - [r:part_of] -> (p:Path) WHERE r.ondexId IN $ondexIDs RETURN properties(r) LIMIT 2'
+
+          return await queryService(ondexQuery, { ondexIDs }, ctx)
+        })
+        .catch((error) => {
+          console.log(error)
         })
     },
     GetRankedGenes: async (object, params, ctx, resolveInfo) => {
