@@ -1,6 +1,7 @@
 export const queryService = async (query, params, ctx) => {
   let result
   let session = ctx.driver.session()
+
   await session
     .run(query, params)
     .then((res) => {
@@ -12,7 +13,6 @@ export const queryService = async (query, params, ctx) => {
     })
     .catch((error) => {
       result = []
-      console.log(error)
     })
     .then(() => session.close())
   return result

@@ -4,6 +4,7 @@ import { client } from '../../client'
 
 test('Gene path: (Gene)<-[]-()-[]->(:)-[]->()', async (t) => {
   t.plan(1)
+
   const query = gql`
     query {
       genes(
@@ -27,6 +28,7 @@ test('Gene path: (Gene)<-[]-()-[]->(:)-[]->()', async (t) => {
       }
     }
   `
+
   const expected = {
     data: {
       genes: [
@@ -139,6 +141,7 @@ test('Gene path: (Gene)<-[]-()-[]->(:)-[]->()', async (t) => {
       ],
     },
   }
+
   await client
     .query({ query })
     .then((data) => {
