@@ -13,7 +13,6 @@ export const resolvers = {
       console.log(query)
       return queryService(query, params, ctx)
         .then((res) => {
-          console.log(res)
           return res
         })
         .catch((error) => {
@@ -73,7 +72,6 @@ export const resolvers = {
 
       return queryService(query, params, ctx)
         .then((res) => {
-          console.log(res)
           return res
         })
         .catch((error) => console.log(error))
