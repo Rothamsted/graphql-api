@@ -1,5 +1,5 @@
 {
-  "name": "grand-stack-starter-api-graphql-serverless",
+  "name": "graphql-serverless",
   "version": "0.0.1",
   "description": "netlify functions:create - set up for apollo graphql",
   "main": "graphql.js",
