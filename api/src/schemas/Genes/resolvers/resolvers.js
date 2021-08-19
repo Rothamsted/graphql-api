@@ -11,7 +11,7 @@ export const resolvers = {
       // const query =
       //   'MATCH (n:Gene) - [:part_of] -> (:Path {description: $keyword}) WHERE n.iri in $list RETURN n LIMIT 3'
       const query =
-        'MATCH (n:Gene) - [:part_of] -> (:MolFunc {description: $keyword}) WHERE n.iri in $list RETURN n LIMIT 3'
+        'MATCH path = (gene_1:Gene) - [enc_1_7_d:enc] -> (protein_7:Protein) WHERE gene_1.iri IN $startGeneIris RETURN path n LIMIT 3'
       return queryService(query, params, ctx)
         .then((res) => {
           return res
