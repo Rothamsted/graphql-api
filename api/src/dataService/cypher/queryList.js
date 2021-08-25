@@ -1,6 +1,6 @@
 //  gene-[..]
 export const query_1 =
-  'MATCH path = (gene_1:Gene) - [enc_1_7_d:enc] -> (protein_7:Protein) WHERE gene_1.iri IN $startGeneIris RETURN path'
+  'MATCH path = (gene_1:Gene) - [enc_1_7_d:enc] -> (protein_7:Protein) WHERE gene_1.iri IN $startGeneIris RETURN gene_1'
 export const query_2 =
   'MATCH path = (gene_1:Gene) - [rel_1_8:homoeolog|regulates|genetic|physical] - (gene_8:Gene) WHERE gene_1.iri IN $startGeneIris RETURN path'
 
