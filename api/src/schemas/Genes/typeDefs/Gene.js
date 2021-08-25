@@ -652,6 +652,7 @@ export const typeDefs = gql`
   }
 
   type Query {
+    FullSearch(keyword: String, list: [String]): [Gene]
     SearchKeyword(keyword: String, list: [String]): [Gene]
     SearchRelation(keyword: String, list: [String]): [Gene]
     SearchAttribute(keyword: String, list: [String]): [Gene]
