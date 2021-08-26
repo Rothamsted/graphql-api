@@ -6,7 +6,7 @@ export const queryService = async (query, params, ctx) => {
     .run(query, params)
     .then((res) => {
       result = res.records.map((rec) => {
-        const path = rec.get('n').properties
+        const path = rec.get('gene_1').properties
 
         return path
       })
