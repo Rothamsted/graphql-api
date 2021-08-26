@@ -36,6 +36,7 @@ export const query_15 =
 
 export const query_16 =
   'MATCH path = (gene_1:Gene) - [part_of_1_23_d:part_of] -> (coExpCluster_23:CoExpCluster) - [part_of_23_25_d:part_of] -> (coExpStudy_25:CoExpStudy) WHERE gene_1.iri IN $startGeneIris RETURN path'
+
 // add pvalue filter to reduce hits in gene-cluster-GO/PO
 export const query_17 =
   'MATCH path = (gene_1:Gene) - [part_of_1_23_d:part_of] -> (coExpCluster_23:CoExpCluster) - [rel:enriched_for] -> (bioProc_4:BioProc) WHERE toFloat(rel.p_adjust)<1E-10 AND gene_1.iri IN $startGeneIris RETURN path'
