@@ -82,8 +82,11 @@ export const resolvers = {
   },
   Query: {
     FullSearch: async (_, params, ctx, __) => {
-      return queryService(query_1, params, ctx)
+      const query =
+        "match (n:Gene)-[:evidence]->(e:EvidenceType)<-[:evidence]-(p:Protein) where n.identifier='TRAESCSU02G024300' and p.prefName contains $keyword return n, p"
+      return queryService(query, params, ctx)
         .then((res) => {
+          console.log(res)
           return res
         })
         .catch((error) => {
