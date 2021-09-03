@@ -77,16 +77,38 @@ const {
 export const resolvers = {
   Gene: {
     prefName(obj) {
-      return `Customed prefName ${obj.prefName}`
+      return obj.prefName
     },
   },
   Query: {
-    FullSearch: async (_, params, ctx, __) => {
-      const query =
-        "match (n:Gene)-[:evidence]->(e:EvidenceType)<-[:evidence]-(p:Protein) where n.identifier='TRAESCSU02G024300' and p.prefName contains $keyword return n, p"
-      return queryService(query, params, ctx)
+    SearchKeyword: async (_, params, ctx, __) => {
+      const proteinQuery =
+        'match (n:Protein) where n.prefName contains $keyword return n.identifier'
+      const pathQuery =
+        'match (n:Path) where n.prefName contains $keyword return n.prefName'
+      const phenotypeQuery =
+        'match (n:Phenotype) where n.Phenotype contains $keyword return n.Phenotype'
+      const bioProcQuery =
+        'match (n:BioProc) where n.prefName contains $keyword return n.prefName'
+      const plantOntologyTermQuery =
+        'match (n:PlantOntologyTerm) where n.prefName contains $keyword return n.prefName'
+      const publicationQuery =
+        'match (n:Publication) where n.Abstract contains $keyword return n.prefName'
+      const celCompQuery =
+        'match (n:CelComp) where n.description contains $keyword return n.prefName'
+      const traitQuery =
+        'match (n:Trait) where n.description contains $keyword return n.prefName'
+      const molFuncQuery =
+        'match (n:MolFunc) where n.description contains $keyword return n.prefName'
+      const reactionQuery =
+        'match (n:Reaction) where n.ondexId = $keyword return n.prefName'
+      const geneQuery =
+        'match (n:Gene) where n.prefName = $keyword return n.prefName'
+      const enzymeQuery =
+        'match (n:Enzyme) where n.description contains $keyword return n.prefName'
+
+      return queryService(geneQuery, params, ctx)
         .then((res) => {
-          console.log(res)
           return res
         })
         .catch((error) => {
@@ -94,7 +116,7 @@ export const resolvers = {
           return []
         })
     },
-    SearchKeyword: async (_, params, ctx, __) => {
+    SearchIris: async (_, params, ctx, __) => {
       const query =
         'MATCH (n:Gene) - [:part_of] -> (:Path) WHERE n.iri in $startGeneIris RETURN n LIMIT 3'
       return queryService(query, params, ctx)
@@ -105,62 +127,6 @@ export const resolvers = {
           console.log(error)
           return []
         })
-    },
-    SearchRelation: async (_, params, ctx, __) => {
-      let result = []
-      const descriptionQuery =
-        'MATCH (n:Gene) - [:part_of] -> (:Path) WHERE n.iri in $list RETURN n LIMIT 3'
-
-      return queryService(descriptionQuery, params, ctx)
-        .then(async (res) => {
-          let ondexIDs = []
-          result = [...result, ...res]
-
-          res.forEach((el) => {
-            if (ondexIDs.indexOf(el.ondexId) === -1) ondexIDs.push(el.ondexId)
-          })
-
-          const ondexQuery =
-            'MATCH (n:Gene) - [r:part_of] -> (p:Path) WHERE r.ondexId IN $ondexIDs RETURN properties(r) LIMIT 2'
-
-          return await queryService(ondexQuery, { ondexIDs }, ctx)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-    SearchAttribute: async (_, params, ctx, __) => {
-      let result = []
-      const descriptionQuery =
-        'MATCH (n:Gene) - [:part_of] -> (:Path) WHERE n.iri in $list RETURN n LIMIT 3'
-
-      return queryService(descriptionQuery, params, ctx)
-        .then(async (res) => {
-          let ondexIDs = []
-          result = [...result, ...res]
-
-          res.forEach((el) => {
-            if (ondexIDs.indexOf(el.ondexId) === -1) ondexIDs.push(el.ondexId)
-          })
-
-          const ondexQuery =
-            'MATCH (n:Gene) - [r:part_of] -> (p:Path) WHERE r.ondexId IN $ondexIDs RETURN properties(r) LIMIT 2'
-
-          return await queryService(ondexQuery, { ondexIDs }, ctx)
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-    GetRankedGenes: async (object, params, ctx, resolveInfo) => {
-      const query =
-        'MATCH (n:Path) WHERE n.description contains $keyword RETURN n LIMIT 3'
-
-      return queryService(query, params, ctx)
-        .then((res) => {
-          return res
-        })
-        .catch((error) => console.log(error))
     },
   },
 }
