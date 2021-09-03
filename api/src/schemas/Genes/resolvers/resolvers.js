@@ -101,9 +101,9 @@ export const resolvers = {
       const molFuncQuery =
         'match (n:MolFunc) where n.description contains $keyword return n.prefName'
       const reactionQuery =
-        'match (n:Reaction) where n.ondexId = $keyword return n.prefName'
+        'match (n:Reaction) where n.ondexId contains $keyword return n.prefName'
       const geneQuery =
-        'match (n:Gene) where n.prefName = $keyword return n.prefName'
+        'match (n:Gene) where n.prefName contains $keyword return n'
       const enzymeQuery =
         'match (n:Enzyme) where n.description contains $keyword return n.prefName'
 
