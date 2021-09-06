@@ -82,32 +82,48 @@ export const resolvers = {
   },
   Query: {
     SearchKeyword: async (_, params, ctx, __) => {
-      const proteinQuery =
-        'match (n:Protein) where n.prefName contains $keyword return n.identifier'
-      const pathQuery =
-        'match (n:Path) where n.prefName contains $keyword return n.prefName'
-      const phenotypeQuery =
-        'match (n:Phenotype) where n.Phenotype contains $keyword return n.Phenotype'
-      const bioProcQuery =
-        'match (n:BioProc) where n.prefName contains $keyword return n.prefName'
-      const plantOntologyTermQuery =
-        'match (n:PlantOntologyTerm) where n.prefName contains $keyword return n.prefName'
-      const publicationQuery =
-        'match (n:Publication) where n.Abstract contains $keyword return n.prefName'
-      const celCompQuery =
-        'match (n:CelComp) where n.description contains $keyword return n.prefName'
-      const traitQuery =
-        'match (n:Trait) where n.description contains $keyword return n.prefName'
-      const molFuncQuery =
-        'match (n:MolFunc) where n.description contains $keyword return n.prefName'
-      const reactionQuery =
-        'match (n:Reaction) where n.ondexId contains $keyword return n.prefName'
-      const geneQuery =
-        'match (n:Gene) where n.prefName contains $keyword return n'
-      const enzymeQuery =
-        'match (n:Enzyme) where n.description contains $keyword return n.prefName'
+      let publicationQuery =
+        'match (n:Publication) where n.Abstract contains $keyword OR n.AbstractHeader contains $keyword return n'
 
-      return queryService(geneQuery, params, ctx)
+      if (params.hasOwnProperty('keyword')) {
+        if (params.keyword.toLowerCase().includes(' and ')) {
+          params.keyword = params.keyword.replaceAll(/ and /gi, ' AND ')
+          const keywords = params.keyword.split(' AND ')
+
+          publicationQuery = 'match (n:Publication) where'
+
+          for (let i = 0; i < keywords.length; i++) {
+            const key = keywords[i].trim()
+
+            if (i === 0)
+              publicationQuery += ` (n.Abstract contains '${key}' OR n.AbstractHeader contains '${key}')`
+            else
+              publicationQuery += ` AND (n.Abstract contains '${key}' OR n.AbstractHeader contains '${key}')`
+          }
+
+          publicationQuery += ' return n'
+          console.log(publicationQuery)
+        } else if (params.keyword.toLowerCase().includes(' or ')) {
+          params.keyword = params.keyword.replaceAll(/ or /gi, ' OR ')
+          const keywords = params.keyword.split(' OR ')
+
+          publicationQuery = 'match (n:Publication) where'
+
+          for (let i = 0; i < keywords.length; i++) {
+            const key = keywords[i].trim()
+
+            if (i === 0)
+              publicationQuery += ` n.Abstract contains '${key}' OR n.AbstractHeader contains '${key}'`
+            else
+              publicationQuery += ` OR n.Abstract contains '${key}' OR n.AbstractHeader contains '${key}'`
+          }
+
+          publicationQuery += ' return n'
+          console.log(publicationQuery)
+        }
+      }
+
+      return queryService(publicationQuery, params, ctx)
         .then((res) => {
           return res
         })
