@@ -82,8 +82,34 @@ export const resolvers = {
   },
   Query: {
     SearchKeyword: async (_, params, ctx, __) => {
+      const proteinQuery =
+        'match (n:Protein) where n.prefName contains $keyword return n.identifier'
+      const pathQuery =
+        'match (n:Path) where n.prefName contains $keyword return n.prefName'
+      const phenotypeQuery =
+        'match (n:Phenotype) where n.Phenotype contains $keyword return n.Phenotype'
+      const bioProcQuery =
+        'match (n:BioProc) where n.prefName contains $keyword return n.prefName'
+      const plantOntologyTermQuery =
+        'match (n:PlantOntologyTerm) where n.prefName contains $keyword return n.prefName'
+      const celCompQuery =
+        'match (n:CelComp) where n.description contains $keyword return n.prefName'
+      const traitQuery =
+        'match (n:Trait) where n.description contains $keyword return n.prefName'
+      const molFuncQuery =
+        'match (n:MolFunc) where n.description contains $keyword return n.prefName'
+      const reactionQuery =
+        'match (n:Reaction) where n.ondexId contains $keyword return n.prefName'
+      const geneQuery =
+        'match (n:Gene) where n.prefName contains $keyword return n'
+      const enzymeQuery =
+        'match (n:Enzyme) where n.description contains $keyword return n.prefName'
+
       let publicationQuery =
         'match (n:Publication) where n.Abstract contains $keyword OR n.AbstractHeader contains $keyword return n'
+
+      publicationQuery =
+        'CALL db.index.fulltext.queryNodes("titlesAndAbstracts", "drought AND trehalose") YIELD node, score RETURN node.prefName, score'
 
       if (params.hasOwnProperty('keyword')) {
         if (params.keyword.toLowerCase().includes(' and ')) {
