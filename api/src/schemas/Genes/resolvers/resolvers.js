@@ -82,46 +82,8 @@ export const resolvers = {
   },
   Query: {
     SearchKeyword: async (_, params, ctx, __) => {
-      let publicationQuery =
-        'match (n:Publication) where n.Abstract contains $keyword OR n.AbstractHeader contains $keyword return n'
-
-      if (params.hasOwnProperty('keyword')) {
-        if (params.keyword.toLowerCase().includes(' and ')) {
-          params.keyword = params.keyword.replaceAll(/ and /gi, ' AND ')
-          const keywords = params.keyword.split(' AND ')
-
-          publicationQuery = 'match (n:Publication) where'
-
-          for (let i = 0; i < keywords.length; i++) {
-            const key = keywords[i].trim()
-
-            if (i === 0)
-              publicationQuery += ` (n.Abstract contains '${key}' OR n.AbstractHeader contains '${key}')`
-            else
-              publicationQuery += ` AND (n.Abstract contains '${key}' OR n.AbstractHeader contains '${key}')`
-          }
-
-          publicationQuery += ' return n'
-          console.log(publicationQuery)
-        } else if (params.keyword.toLowerCase().includes(' or ')) {
-          params.keyword = params.keyword.replaceAll(/ or /gi, ' OR ')
-          const keywords = params.keyword.split(' OR ')
-
-          publicationQuery = 'match (n:Publication) where'
-
-          for (let i = 0; i < keywords.length; i++) {
-            const key = keywords[i].trim()
-
-            if (i === 0)
-              publicationQuery += ` n.Abstract contains '${key}' OR n.AbstractHeader contains '${key}'`
-            else
-              publicationQuery += ` OR n.Abstract contains '${key}' OR n.AbstractHeader contains '${key}'`
-          }
-
-          publicationQuery += ' return n'
-          console.log(publicationQuery)
-        }
-      }
+      const publicationQuery =
+        'CALL db.index.fulltext.queryNodes("titlesAndAbstracts", $keyword) YIELD node, score RETURN node'
 
       return queryService(publicationQuery, params, ctx)
         .then((res) => {
